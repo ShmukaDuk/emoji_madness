@@ -10,6 +10,9 @@ Emoji Madness is a Python program that takes GIF images and converts them into t
 - Display the text art in the terminal.
 - Supports Windows and Unix-based systems.
 
+![Local Image](lol.png)
+
+
 ## Prerequisites
 
 Before running Emoji Madness, make sure you have the following prerequisites installed:
@@ -30,13 +33,17 @@ Before running Emoji Madness, make sure you have the following prerequisites ins
     Navigate to the project directory:
     cd emoji_madness
     Place your GIF images in the project directory or provide the path to your GIF image in the prepImage function.
-2.
 
-    Create a file named emojis.txt and add your emojis to it, one per line:
-    Customize
-    You can customize the emojis in the emojis.txt file to change the available emojis for text art.
-    Modify the gif_w and gif_h variables to control the dimensions of the text art.
-    
+2. Setup Emoji Db:
+
+    Create a file named emojisbase and add your emojis to it, one per line:
+    🌊
+    😀
+    🌸
+    you may need to run generate convertEmojiToRGB() and save to json. I have pre compiled some emojis here allready.
+
+3. python gogo.py
+
 ## Contributing
 If you'd like to contribute to Emoji Madness, feel free to fork the repository and submit a pull request with your changes.
 
