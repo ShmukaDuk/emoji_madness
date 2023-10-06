@@ -8,7 +8,7 @@ str2 = '😀'
 str3 = '🌸'
 my_list = ["😀"]
 my_dict = []
-
+data = []
 def load_emojis(path):
     with open(path, 'r', encoding='utf-8') as emoji_file:
         for line in emoji_file:
@@ -66,12 +66,16 @@ def calculate_distance(color1, color2):
     return math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2)
 
 target_rgb = (11, 101, 11)
-closest_color = None
-closest_distance = float('inf')
 
-json_file_path = 'output.json'  # Replace with your file path
-with open(json_file_path, 'r', encoding='utf-8') as json_file:
-    data = json.load(json_file)
+
+def loadJson(json_file_path):
+    with open(json_file_path, 'r', encoding='utf-8') as json_file:
+        data = json.load(json_file)
+        return data
+
+def findEmojiFromPixel(data, target_rgb):
+    closest_color = None
+    closest_distance = float('inf')
     for item in data:
         emoji_rgb = item["RGB Color"]
         distance = calculate_distance(target_rgb, emoji_rgb)
@@ -79,24 +83,15 @@ with open(json_file_path, 'r', encoding='utf-8') as json_file:
             closest_distance = distance
             closest_color = emoji_rgb
             closest_emoji = item["Emoji"]
+            print(f"Closest RGB Color: {closest_color}")
+            print(f"Closest Emoji: {closest_emoji}")
+            return closest_emoji
 
-print(f"Closest RGB Color: {closest_color}")
-print(f"Closest Emoji: {closest_emoji}")
-        
+data = loadJson('output.json')
+emoji = findEmojiFromPixel(data, target_rgb)
 
-# load_emojis('emojibase')
 
-# for str in my_list:
-#     print(str)
-#     my_dict.append(convertEmojiToRGB(str))
 
-# for lut in my_dict:
-#     print(lut)
-
-# save_lut(my_dict)
-
-# print(emoji_data)
-    
 # # Iterate through each frame in the GIF
 # try:
 #     while True:
