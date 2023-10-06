@@ -1,6 +1,7 @@
 from pilmoji import Pilmoji
 from PIL import Image, ImageFont
 import json
+import math
 
 my_string = '🌊'
 str2 = '😀'
@@ -58,7 +59,31 @@ def save_lut(my_dict):
     with open('output.json', 'w', encoding='utf-8') as json_file:
         json.dump(json_data, json_file, ensure_ascii=False, indent=4)
 
-    
+
+def calculate_distance(color1, color2):
+    r1, g1, b1 = color1
+    r2, g2, b2 = color2
+    return math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2)
+
+target_rgb = (11, 101, 11)
+closest_color = None
+closest_distance = float('inf')
+
+json_file_path = 'output.json'  # Replace with your file path
+with open(json_file_path, 'r', encoding='utf-8') as json_file:
+    data = json.load(json_file)
+    for item in data:
+        emoji_rgb = item["RGB Color"]
+        distance = calculate_distance(target_rgb, emoji_rgb)
+        if distance < closest_distance:
+            closest_distance = distance
+            closest_color = emoji_rgb
+            closest_emoji = item["Emoji"]
+
+print(f"Closest RGB Color: {closest_color}")
+print(f"Closest Emoji: {closest_emoji}")
+        
+
 # load_emojis('emojibase')
 
 # for str in my_list:
