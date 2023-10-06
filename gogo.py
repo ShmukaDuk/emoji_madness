@@ -3,7 +3,7 @@ from PIL import Image, ImageFont, ImageSequence
 import json
 import math
 import os
-
+import time
 my_string = '🌊'
 str2 = '😀'
 str3 = '🌸'
@@ -121,25 +121,5 @@ gif_as_txt = prepImage("carlton.gif", data)
 while 1:
     for txt in gif_as_txt:
         print(txt)
-        # os.system('cls' if os.name == 'nt' else 'clear')
-# emoji = findEmojiFromPixel(data, target_rgb)
-
-
-
-# # Iterate through each frame in the GIF
-# try:
-#     while True:
-#         current_frame = gif.copy()
-#         # current_frame.show()  # Display or process the frame as needed
-#         gif.seek(gif.tell() + 1)
-# except EOFError:
-#     pass
-
-# # Close the GIF file
-# gif.close()
-# Open the GIF file
-# gif_file = "data/carlton.gif"
-# gif = Image.open(gif_file)
-# width, height = gif.size
-# print(f"Width: {width}px")
-# print(f"Height: {height}px")
+        time.sleep(0.1)
+        os.system('cls' if os.name == 'nt' else 'clear')
