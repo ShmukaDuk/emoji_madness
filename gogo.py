@@ -1,7 +1,8 @@
 from pilmoji import Pilmoji
-from PIL import Image, ImageFont
+from PIL import Image, ImageFont, ImageSequence
 import json
 import math
+import os
 
 my_string = '🌊'
 str2 = '😀'
@@ -9,6 +10,9 @@ str3 = '🌸'
 my_list = ["😀"]
 my_dict = []
 data = []
+gif_w = 50
+gif_h = 50
+
 def load_emojis(path):
     with open(path, 'r', encoding='utf-8') as emoji_file:
         for line in emoji_file:
@@ -74,21 +78,51 @@ def loadJson(json_file_path):
         return data
 
 def findEmojiFromPixel(data, target_rgb):
+    # print(data)
     closest_color = None
     closest_distance = float('inf')
     for item in data:
         emoji_rgb = item["RGB Color"]
+        # print(emoji_rgb, target_rgb)
         distance = calculate_distance(target_rgb, emoji_rgb)
+        # print(distance)
         if distance < closest_distance:
             closest_distance = distance
             closest_color = emoji_rgb
             closest_emoji = item["Emoji"]
-            print(f"Closest RGB Color: {closest_color}")
-            print(f"Closest Emoji: {closest_emoji}")
-            return closest_emoji
+            # print(f"Closest RGB Color: {closest_color}")
+            # print(f"Closest Emoji: {closest_emoji}")
+    return closest_emoji
 
+def prepImage(input_image_path, data):
+    with Image.open(input_image_path) as img:
+        gif_as_txt= []
+        gif_frames = [frame.copy() for frame in ImageSequence.Iterator(img)]
+
+        for frame in gif_frames:
+            resized_img = frame.resize((gif_w, gif_h))
+            resized_img = resized_img.convert('RGBA')
+            # resized_img.show()
+            emoj_line = ""
+            for x in range(gif_h):
+                for y in range(gif_w):
+                    r, g, b, a = resized_img.getpixel((y, x))  # Get RGBA values
+                    found_emoji = findEmojiFromPixel(data, (r, g, b))
+                    # print(r,g,b)
+                    emoj_line += found_emoji
+                
+                emoj_line += "\n"
+            # print(emoj_line)
+            gif_as_txt.append(emoj_line)
+    return gif_as_txt
+                
 data = loadJson('output.json')
-emoji = findEmojiFromPixel(data, target_rgb)
+gif_as_txt = prepImage("carlton.gif", data)
+while 1:
+    for txt in gif_as_txt:
+        print(txt)
+        # os.system('cls' if os.name == 'nt' else 'clear')
+# emoji = findEmojiFromPixel(data, target_rgb)
 
 
 
